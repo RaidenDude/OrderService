@@ -1,5 +1,7 @@
+using System;
 using System.Globalization;
 using NUnit.Framework;
+using OrderService.Products;
 
 namespace OrderService.Tests
 {
@@ -8,11 +10,17 @@ namespace OrderService.Tests
     {
         private static readonly Product MotorSuper = new CarInsurance(ProductPackage.Super);
         private static readonly Product MotorBasic = new CarInsurance(ProductPackage.Basic);
+        private Order order;
+
+        [SetUp]
+        public void SetUp()
+        {
+            order = new Order("Test Company");
+        }
 
         [Test]
         public void can_generate_html_receipt_for_motor_basic()
         {
-            var order = new Order("Test Company");
             order.AddLine(new OrderLine(MotorBasic, 1));
             var actual = order.GenerateHtmlReceipt();
 
@@ -25,7 +33,6 @@ namespace OrderService.Tests
         [Test]
         public void can_generate_html_receipt_for_motor_super()
         {
-            var order = new Order("Test Company");
             order.AddLine(new OrderLine(MotorSuper, 1));
             var actual = order.GenerateHtmlReceipt();
 
@@ -38,7 +45,6 @@ namespace OrderService.Tests
         [Test]
         public void can_generate_receipt_for_motor_basic()
         {
-            var order = new Order("Test Company");
             order.AddLine(new OrderLine(MotorBasic, 1));
             var actual = order.GenerateReceipt();
             var expected =
@@ -50,13 +56,20 @@ namespace OrderService.Tests
         [Test]
         public void can_generate_receipt_for_motor_super()
         {
-            var order = new Order("Test Company");
             order.AddLine(new OrderLine(MotorSuper, 1));
             var actual = order.GenerateReceipt();
             var expected =
                 $"Order receipt for 'Test Company'\r\n\t1 x Car Insurance Super = kr 2{NumberFormatInfo.CurrentInfo.NumberGroupSeparator}000,00\r\nSubtotal: kr 2{NumberFormatInfo.CurrentInfo.NumberGroupSeparator}000,00\r\nMVA: kr 500,00\r\nTotal: kr 2{NumberFormatInfo.CurrentInfo.NumberGroupSeparator}500,00";
 
             Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void can_generate_json_receipt()
+        {
+            order.AddLine(new OrderLine(MotorSuper, 1));
+            var actual = order.GenerateJsonReceipt();
+            Console.WriteLine(actual);
         }
     }
 }

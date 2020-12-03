@@ -1,4 +1,4 @@
-﻿namespace OrderService
+﻿namespace OrderService.Products
 {
     public abstract class Product
     {

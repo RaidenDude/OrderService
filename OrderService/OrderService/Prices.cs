@@ -1,4 +1,5 @@
 ﻿using System;
+using OrderService.Products;
 
 namespace OrderService
 {
@@ -6,6 +7,10 @@ namespace OrderService
     {
         private const int OneThousand = 1000;
         private const int TwoThousand = 2000;
+        private const double TenProductDiscount = 0.5d;
+        private const double ThreeProductDiscountForTwoThousandOrder = 0.8d;
+        private const double FiveProductDiscountForOneThousandOrder = 0.9d;
+        private const int FlatDiscountAmount = 100;
         public const double TaxRate = .25d;
 
         public static int GetPriceForProduct(Product product) => product switch
@@ -18,19 +23,24 @@ namespace OrderService
 
         public static double CalculateLinePrice(OrderLine line)
         {
-            var discountMultiplier = 0d;
+            var discountMultiplier = 1d;
 
-            if (line.Product.Price >= TwoThousand)
+            if (line.Quantity >= 10)
             {
-                discountMultiplier = line.Quantity >= 3 ? .8d : 1d;
+                discountMultiplier = TenProductDiscount;
             }
 
-            else if (line.Product.Price >= OneThousand)
+            else if (line.Product.Price >= TwoThousand && line.Quantity >= 3)
             {
-                discountMultiplier = line.Quantity >= 5 ? .9d : 1d;
+                discountMultiplier = ThreeProductDiscountForTwoThousandOrder;
             }
 
-            return line.Quantity * line.Product.Price * discountMultiplier;
+            else if (line.Product.Price >= OneThousand && line.Quantity >= 5)
+            {
+                discountMultiplier = FiveProductDiscountForOneThousandOrder;
+            }
+
+            return line.Quantity * line.Product.Price * discountMultiplier - FlatDiscountAmount;
         }
     }
 }

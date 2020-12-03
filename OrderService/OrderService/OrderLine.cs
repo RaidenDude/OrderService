@@ -1,4 +1,6 @@
-﻿namespace OrderService
+﻿using OrderService.Products;
+
+namespace OrderService
 {
     public class OrderLine
     {
@@ -10,10 +12,5 @@
 
         public Product Product { get; }
         public int Quantity { get; }
-
-        public override string ToString()
-        {
-            return $"{Quantity} x {Product}";
-        }
     }
 }
