@@ -1,23 +1,13 @@
 ﻿namespace OrderService
 {
-    public class Product
+    public abstract class Product
     {
-        public Product(string productType, string productName, int price)
+        protected Product(ProductPackage package)
         {
-            ProductType = productType;
-            ProductName = productName;
-            Price = price;
+            ProductName = package;
         }
 
-        public string ProductType { get; }
-        public string ProductName { get; }
-        public int Price { get; }
-
-        public class Prices
-        {
-            public const int OneThousand = 1000;
-            public const int TwoThousand = 2000;
-            public const double TaxRate = .25d;
-        }
+        public ProductPackage ProductName { get; }
+        public int Price { get; protected set; }
     }
 }

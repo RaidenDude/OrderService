@@ -6,8 +6,8 @@ namespace OrderService.Tests
     [TestFixture]
     public class OrderTests
     {
-        private static readonly Product MotorSuper = new Product("Car Insurance", "Super", Product.Prices.TwoThousand);
-        private static readonly Product MotorBasic = new Product("Car Insurance", "Basic", Product.Prices.OneThousand);
+        private static readonly Product MotorSuper = new CarInsurance(ProductPackage.Super);
+        private static readonly Product MotorBasic = new CarInsurance(ProductPackage.Basic);
 
         [Test]
         public void can_generate_html_receipt_for_motor_basic()
